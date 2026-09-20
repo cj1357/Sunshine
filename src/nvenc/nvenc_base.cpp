@@ -275,6 +275,7 @@ namespace NVENC_NAMESPACE {
 
     enc_config.rcParams.enableAQ = config.adaptive_quantization;
     enc_config.rcParams.averageBitRate = client_config.bitrate * 1000;
+    enc_config.rcParams.maxBitRate = enc_config.rcParams.averageBitRate;
     if (get_encoder_cap(encode_guid, NV_ENC_CAPS_SUPPORT_CUSTOM_VBV_BUF_SIZE)) {
       enc_config.rcParams.vbvBufferSize = client_config.bitrate * 1000 / client_config.framerate;
       if (config.vbv_percentage_increase > 0) {
@@ -373,6 +374,11 @@ namespace NVENC_NAMESPACE {
                                         NV_ENC_H264_ENTROPY_CODING_MODE_CABAC;
     configure_reference_frames(format_config.maxNumRefFrames, format_config.numRefL0, 5, client_config.numRefFrames, encode_guid);
 
+    enc_config.rcParams.enableMaxQP = 1;
+    enc_config.rcParams.maxQP.qpIntra = 38;
+    enc_config.rcParams.maxQP.qpInterP = 36;
+    enc_config.rcParams.maxQP.qpInterB = 36;
+
     if (config.enable_min_qp) {
       enc_config.rcParams.enableMinQP = 1;
       enc_config.rcParams.minQP.qpInterP = config.min_qp_h264;
@@ -408,6 +414,11 @@ namespace NVENC_NAMESPACE {
 #endif
     }
     configure_reference_frames(format_config.maxNumRefFramesInDPB, format_config.numRefL0, 5, client_config.numRefFrames, encode_guid);
+
+    enc_config.rcParams.enableMaxQP = 1;
+    enc_config.rcParams.maxQP.qpIntra = 38;
+    enc_config.rcParams.maxQP.qpInterP = 36;
+    enc_config.rcParams.maxQP.qpInterB = 36;
 
     if (config.enable_min_qp) {
       enc_config.rcParams.enableMinQP = 1;
@@ -449,6 +460,11 @@ namespace NVENC_NAMESPACE {
     format_config.colorRange = colorspace.full_range;
     format_config.chromaSamplePosition = buffer_is_yuv444(buffer_format) ? 0 : 1;
     configure_reference_frames(format_config.maxNumRefFramesInDPB, format_config.numFwdRefs, 8, client_config.numRefFrames, encode_guid);
+
+    enc_config.rcParams.enableMaxQP = 1;
+    enc_config.rcParams.maxQP.qpIntra = 38;
+    enc_config.rcParams.maxQP.qpInterP = 36;
+    enc_config.rcParams.maxQP.qpInterB = 36;
 
     if (config.enable_min_qp) {
       enc_config.rcParams.enableMinQP = 1;
