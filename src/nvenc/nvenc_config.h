@@ -55,6 +55,12 @@ namespace nvenc {
     // Min QP value for AV1 when enable_min_qp is selected
     unsigned min_qp_av1 = 23;  ///< Min qp AV1.
 
+    // Limit maximum QP value for NVENC to prevent macroblocking during high motion
+    bool enable_max_qp = true;  ///< Enable maximum QP limits for NVENC.
+
+    // Maximum QP value when enable_max_qp is selected (default 36)
+    int max_qp = 36;  ///< Max QP value for NVENC.
+
     // Use CAVLC entropy coding in H.264 instead of CABAC, not relevant and here for historical reasons
     bool h264_cavlc = false;  ///< Use CAVLC entropy coding for H.264.
 
@@ -63,6 +69,12 @@ namespace nvenc {
 
     // Enable split-frame encoding if the gpu has multiple NVENC hardware clusters
     nvenc_split_frame_encoding split_frame_encoding = nvenc_split_frame_encoding::driver_decides;  ///< Split frame encoding.
+
+    // Enable NVENC intra-refresh to eliminate IDR bitrate spikes
+    bool intra_refresh = true;  ///< Enable intra-refresh for NVENC.
+
+    // Number of frames across which an intra-refresh sweep occurs
+    int intra_refresh_period = 120;  ///< Intra-refresh period in frames.
   };
 
 }  // namespace nvenc

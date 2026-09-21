@@ -211,6 +211,7 @@ namespace NVENC_NAMESPACE {
      *
      * @tparam FormatConfig Codec-specific NVENC configuration type.
      * @param format_config Codec-specific encoder configuration to update.
+     * @param config NVENC encoder configuration.
      * @param client_config Stream configuration requested by the client.
      * @param colorspace NVENC colorspace metadata.
      * @param buffer_format Selected NVENC input format.
@@ -219,6 +220,7 @@ namespace NVENC_NAMESPACE {
     template<typename FormatConfig>
     void configure_h264_hevc_metadata(
       FormatConfig &format_config,
+      const ::nvenc::nvenc_config &config,
       const video::config_t &client_config,
       const nvenc_colorspace_t &colorspace,
       NV_ENC_BUFFER_FORMAT buffer_format,

@@ -69,6 +69,38 @@ const config = ref(props.config)
       </div>
     </div>
 
+    <!-- Intra-Refresh -->
+    <Checkbox class="mb-3"
+              id="nvenc_intra_refresh"
+              locale-prefix="config"
+              v-model="config.nvenc_intra_refresh"
+              default="true"
+    ></Checkbox>
+
+    <!-- Intra-Refresh period -->
+    <div class="mb-3" v-if="config.nvenc_intra_refresh === 'enabled' || config.nvenc_intra_refresh === true || config.nvenc_intra_refresh === '' || config.nvenc_intra_refresh === undefined">
+      <label for="nvenc_intra_refresh_period" class="form-label">{{ $t('config.nvenc_intra_refresh_period') }}</label>
+      <input type="number" min="30" max="600" class="form-control" id="nvenc_intra_refresh_period" placeholder="120"
+             v-model="config.nvenc_intra_refresh_period" />
+      <div class="form-text">{{ $t('config.nvenc_intra_refresh_period_desc') }}</div>
+    </div>
+
+    <!-- Maximum Quantization Parameter (Max QP) -->
+    <Checkbox class="mb-3"
+              id="nvenc_enable_max_qp"
+              locale-prefix="config"
+              v-model="config.nvenc_enable_max_qp"
+              default="true"
+    ></Checkbox>
+
+    <!-- Max QP value -->
+    <div class="mb-3" v-if="config.nvenc_enable_max_qp === 'enabled' || config.nvenc_enable_max_qp === true || config.nvenc_enable_max_qp === '' || config.nvenc_enable_max_qp === undefined">
+      <label for="nvenc_max_qp" class="form-label">{{ $t('config.nvenc_max_qp') }}</label>
+      <input type="number" min="20" max="51" class="form-control" id="nvenc_max_qp" placeholder="36"
+             v-model="config.nvenc_max_qp" />
+      <div class="form-text">{{ $t('config.nvenc_max_qp_desc') }}</div>
+    </div>
+
     <!-- Miscellaneous options -->
     <div class="mb-3 accordion">
       <div class="accordion-item">
