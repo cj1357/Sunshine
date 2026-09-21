@@ -2440,6 +2440,110 @@ supported on the current platform.
     </tr>
 </table>
 
+### nvenc_intra_refresh
+
+<table>
+    <tr>
+        <td>Description</td>
+        <td colspan="2">
+            Smoothly refresh the video frame using progressive intra macroblocks instead of sending massive IDR keyframes, eliminating bandwidth spikes on 100M networks.
+            @note{This option only applies when using NVENC [encoder](#encoder).}
+        </td>
+    </tr>
+    <tr>
+        <td>Default</td>
+        <td colspan="2">@code{}
+            enabled
+            @endcode</td>
+    </tr>
+    <tr>
+        <td>Example</td>
+        <td colspan="2">@code{}
+            nvenc_intra_refresh = enabled
+            @endcode</td>
+    </tr>
+</table>
+
+### nvenc_intra_refresh_period
+
+<table>
+    <tr>
+        <td>Description</td>
+        <td colspan="2">
+            Number of frames across which an intra-refresh sweep occurs. 120 frames corresponds to 2 seconds at 60 FPS.
+            @note{This option only applies when using NVENC [encoder](#encoder).}
+        </td>
+    </tr>
+    <tr>
+        <td>Default</td>
+        <td colspan="2">@code{}
+            120
+            @endcode</td>
+    </tr>
+    <tr>
+        <td>Range</td>
+        <td colspan="2">30-600</td>
+    </tr>
+    <tr>
+        <td>Example</td>
+        <td colspan="2">@code{}
+            nvenc_intra_refresh_period = 120
+            @endcode</td>
+    </tr>
+</table>
+
+### nvenc_enable_max_qp
+
+<table>
+    <tr>
+        <td>Description</td>
+        <td colspan="2">
+            Clamp the encoder maximum QP value to prevent macroblocking during high motion or complex scenes. Recommended to enable on 100M networks.
+            @note{This option only applies when using NVENC [encoder](#encoder).}
+        </td>
+    </tr>
+    <tr>
+        <td>Default</td>
+        <td colspan="2">@code{}
+            enabled
+            @endcode</td>
+    </tr>
+    <tr>
+        <td>Example</td>
+        <td colspan="2">@code{}
+            nvenc_enable_max_qp = enabled
+            @endcode</td>
+    </tr>
+</table>
+
+### nvenc_max_qp
+
+<table>
+    <tr>
+        <td>Description</td>
+        <td colspan="2">
+            Maximum allowed QP value for NVENC. Lower values maintain higher minimum fidelity but may increase frame sizes during complex motion.
+            @note{This option only applies when using NVENC [encoder](#encoder).}
+        </td>
+    </tr>
+    <tr>
+        <td>Default</td>
+        <td colspan="2">@code{}
+            36
+            @endcode</td>
+    </tr>
+    <tr>
+        <td>Range</td>
+        <td colspan="2">20-51</td>
+    </tr>
+    <tr>
+        <td>Example</td>
+        <td colspan="2">@code{}
+            nvenc_max_qp = 36
+            @endcode</td>
+    </tr>
+</table>
+
 ### nvenc_realtime_hags
 
 <table>
