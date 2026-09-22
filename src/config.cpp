@@ -1623,8 +1623,7 @@ namespace config {
     bool_f(vars, "nvenc_realtime_hags", video.nv_realtime_hags);
     bool_f(vars, "nvenc_opengl_vulkan_on_dxgi", video.nv_opengl_vulkan_on_dxgi);
     bool_f(vars, "nvenc_latency_over_power", video.nv_sunshine_high_power_mode);
-    bool_f(vars, "nvenc_intra_refresh", video.nv.intra_refresh);
-    int_between_f(vars, "nvenc_intra_refresh_period", video.nv.intra_refresh_period, {30, 600});
+    int_between_f(vars, "nvenc_idr_interval", video.nv.idr_interval, {0, 120});
     bool_f(vars, "nvenc_enable_max_qp", video.nv.enable_max_qp);
     int_between_f(vars, "nvenc_max_qp", video.nv.max_qp, {20, 51});
 

@@ -2440,54 +2440,31 @@ supported on the current platform.
     </tr>
 </table>
 
-### nvenc_intra_refresh
+### nvenc_idr_interval
 
 <table>
     <tr>
         <td>Description</td>
         <td colspan="2">
-            Smoothly refresh the video frame using progressive intra macroblocks instead of sending massive IDR keyframes, eliminating bandwidth spikes on 100M networks.
+            Periodic IDR keyframe interval in seconds to purge P-frame quantization noise and drift.
+            Setting to 0 disables periodic IDR keyframes, relying purely on client-requested packet loss recovery.
             @note{This option only applies when using NVENC [encoder](#encoder).}
         </td>
     </tr>
     <tr>
         <td>Default</td>
         <td colspan="2">@code{}
-            enabled
-            @endcode</td>
-    </tr>
-    <tr>
-        <td>Example</td>
-        <td colspan="2">@code{}
-            nvenc_intra_refresh = enabled
-            @endcode</td>
-    </tr>
-</table>
-
-### nvenc_intra_refresh_period
-
-<table>
-    <tr>
-        <td>Description</td>
-        <td colspan="2">
-            Number of frames across which an intra-refresh sweep occurs. 120 frames corresponds to 2 seconds at 60 FPS.
-            @note{This option only applies when using NVENC [encoder](#encoder).}
-        </td>
-    </tr>
-    <tr>
-        <td>Default</td>
-        <td colspan="2">@code{}
-            120
+            15
             @endcode</td>
     </tr>
     <tr>
         <td>Range</td>
-        <td colspan="2">30-600</td>
+        <td colspan="2">0-120</td>
     </tr>
     <tr>
         <td>Example</td>
         <td colspan="2">@code{}
-            nvenc_intra_refresh_period = 120
+            nvenc_idr_interval = 15
             @endcode</td>
     </tr>
 </table>

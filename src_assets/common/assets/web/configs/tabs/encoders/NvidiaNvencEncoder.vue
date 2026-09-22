@@ -69,20 +69,12 @@ const config = ref(props.config)
       </div>
     </div>
 
-    <!-- Intra-Refresh -->
-    <Checkbox class="mb-3"
-              id="nvenc_intra_refresh"
-              locale-prefix="config"
-              v-model="config.nvenc_intra_refresh"
-              default="true"
-    ></Checkbox>
-
-    <!-- Intra-Refresh period -->
-    <div class="mb-3" v-if="config.nvenc_intra_refresh === 'enabled' || config.nvenc_intra_refresh === true || config.nvenc_intra_refresh === '' || config.nvenc_intra_refresh === undefined">
-      <label for="nvenc_intra_refresh_period" class="form-label">{{ $t('config.nvenc_intra_refresh_period') }}</label>
-      <input type="number" min="30" max="600" class="form-control" id="nvenc_intra_refresh_period" placeholder="120"
-             v-model="config.nvenc_intra_refresh_period" />
-      <div class="form-text">{{ $t('config.nvenc_intra_refresh_period_desc') }}</div>
+    <!-- Periodic IDR interval -->
+    <div class="mb-3">
+      <label for="nvenc_idr_interval" class="form-label">{{ $t('config.nvenc_idr_interval') }}</label>
+      <input type="number" min="0" max="120" class="form-control" id="nvenc_idr_interval" placeholder="15"
+             v-model="config.nvenc_idr_interval" />
+      <div class="form-text">{{ $t('config.nvenc_idr_interval_desc') }}</div>
     </div>
 
     <!-- Maximum Quantization Parameter (Max QP) -->

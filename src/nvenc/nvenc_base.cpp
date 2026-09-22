@@ -304,7 +304,6 @@ namespace NVENC_NAMESPACE {
   template<typename FormatConfig>
   void nvenc_base::configure_h264_hevc_metadata(
     FormatConfig &format_config,
-    const ::nvenc::nvenc_config &config,
     const video::config_t &client_config,
     const nvenc_colorspace_t &colorspace,
     NV_ENC_BUFFER_FORMAT buffer_format,
@@ -330,18 +329,16 @@ namespace NVENC_NAMESPACE {
       configure_vui(format_config.hevcVUIParameters);
     }
 
-    const bool use_intra_refresh = config.intra_refresh || (client_config.enableIntraRefresh == 1);
-    if (!use_intra_refresh) {
+    if (client_config.enableIntraRefresh != 1) {
       return;
     }
     if (!get_encoder_cap(encode_guid, NV_ENC_CAPS_SUPPORT_INTRA_REFRESH)) {
-      BOOST_LOG(error) << "NvEnc: Intra-refresh requested but the encoder does not support intra-refresh";
+      BOOST_LOG(error) << "NvEnc: Client asked for intra-refresh but the encoder does not support intra-refresh";
       return;
     }
-    const int period = config.intra_refresh_period >= 30 ? config.intra_refresh_period : 120;
     format_config.enableIntraRefresh = 1;
-    format_config.intraRefreshPeriod = period;
-    format_config.intraRefreshCnt = period - 1;
+    format_config.intraRefreshPeriod = 300;
+    format_config.intraRefreshCnt = 299;
     if constexpr (requires { format_config.outputRecoveryPointSEI; }) {
       format_config.outputRecoveryPointSEI = 1;
     }
@@ -378,7 +375,7 @@ namespace NVENC_NAMESPACE {
     configure_reference_frames(format_config.maxNumRefFrames, format_config.numRefL0, 5, client_config.numRefFrames, encode_guid);
     if (config.enable_max_qp) {
       enc_config.rcParams.enableMaxQP = 1;
-      enc_config.rcParams.maxQP.qpIntra = std::min(51, config.max_qp + 2);
+      enc_config.rcParams.maxQP.qpIntra = config.max_qp;
       enc_config.rcParams.maxQP.qpInterP = config.max_qp;
       enc_config.rcParams.maxQP.qpInterB = config.max_qp;
     }
@@ -389,7 +386,7 @@ namespace NVENC_NAMESPACE {
       enc_config.rcParams.minQP.qpIntra = config.min_qp_h264;
     }
 
-    configure_h264_hevc_metadata(format_config, config, client_config, colorspace, buffer_format, encode_guid);
+    configure_h264_hevc_metadata(format_config, client_config, colorspace, buffer_format, encode_guid);
   }
 
   void nvenc_base::configure_hevc(
@@ -421,7 +418,7 @@ namespace NVENC_NAMESPACE {
 
     if (config.enable_max_qp) {
       enc_config.rcParams.enableMaxQP = 1;
-      enc_config.rcParams.maxQP.qpIntra = std::min(51, config.max_qp + 2);
+      enc_config.rcParams.maxQP.qpIntra = config.max_qp;
       enc_config.rcParams.maxQP.qpInterP = config.max_qp;
       enc_config.rcParams.maxQP.qpInterB = config.max_qp;
     }
@@ -432,7 +429,7 @@ namespace NVENC_NAMESPACE {
       enc_config.rcParams.minQP.qpIntra = config.min_qp_hevc;
     }
 
-    configure_h264_hevc_metadata(format_config, config, client_config, colorspace, buffer_format, encode_guid);
+    configure_h264_hevc_metadata(format_config, client_config, colorspace, buffer_format, encode_guid);
   }
 
 #if NVENC_SDK_VERSION >= 1200
@@ -469,7 +466,7 @@ namespace NVENC_NAMESPACE {
 
     if (config.enable_max_qp) {
       enc_config.rcParams.enableMaxQP = 1;
-      enc_config.rcParams.maxQP.qpIntra = std::min(51, config.max_qp + 2);
+      enc_config.rcParams.maxQP.qpIntra = config.max_qp;
       enc_config.rcParams.maxQP.qpInterP = config.max_qp;
       enc_config.rcParams.maxQP.qpInterB = config.max_qp;
     }

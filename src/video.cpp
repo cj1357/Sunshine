@@ -2451,6 +2451,8 @@ namespace video {
       }
     }
 
+    auto last_periodic_idr = std::chrono::steady_clock::now();
+
     while (true) {
       bool requested_idr_frame = false;
 
@@ -2460,9 +2462,15 @@ namespace video {
         }
       }
 
+      const auto now = std::chrono::steady_clock::now();
+      const auto idr_interval_sec = config::video.nv.idr_interval;
       if (idr_events->peek()) {
         requested_idr_frame = true;
         idr_events->pop();
+        last_periodic_idr = now;
+      } else if (idr_interval_sec > 0 && std::chrono::duration_cast<std::chrono::seconds>(now - last_periodic_idr).count() >= idr_interval_sec) {
+        requested_idr_frame = true;
+        last_periodic_idr = now;
       }
 
       if (requested_idr_frame) {
@@ -2739,6 +2747,7 @@ namespace video {
     }
 
     auto ec = platf::capture_e::ok;
+    auto last_periodic_idr = std::chrono::steady_clock::now();
 
     while (encode_session_ctx_queue.running()) {
       auto push_captured_image_callback = [&](std::shared_ptr<platf::img_t> &&img, bool frame_captured) -> bool {
@@ -2777,9 +2786,15 @@ namespace video {
             continue;
           }
 
+          const auto now = std::chrono::steady_clock::now();
+          const auto idr_interval_sec = config::video.nv.idr_interval;
           if (ctx->idr_events->peek()) {
             pos->session->request_idr_frame();
             ctx->idr_events->pop();
+            last_periodic_idr = now;
+          } else if (idr_interval_sec > 0 && std::chrono::duration_cast<std::chrono::seconds>(now - last_periodic_idr).count() >= idr_interval_sec) {
+            pos->session->request_idr_frame();
+            last_periodic_idr = now;
           }
 
           if (frame_captured && pos->session->convert(*img)) {

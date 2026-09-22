@@ -70,11 +70,8 @@ namespace nvenc {
     // Enable split-frame encoding if the gpu has multiple NVENC hardware clusters
     nvenc_split_frame_encoding split_frame_encoding = nvenc_split_frame_encoding::driver_decides;  ///< Split frame encoding.
 
-    // Enable NVENC intra-refresh to eliminate IDR bitrate spikes
-    bool intra_refresh = true;  ///< Enable intra-refresh for NVENC.
-
-    // Number of frames across which an intra-refresh sweep occurs
-    int intra_refresh_period = 120;  ///< Intra-refresh period in frames.
+    // Periodic IDR keyframe interval in seconds to purge P-frame drift (0 to disable)
+    int idr_interval = 15;  ///< Periodic IDR interval in seconds (0 to disable).
   };
 
 }  // namespace nvenc
